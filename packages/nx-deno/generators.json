@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-deno",
+  "version": "0.0.1",
+  "generators": {
+    "nx-deno": {
+      "factory": "./src/generators/nx-deno/generator",
+      "schema": "./src/generators/nx-deno/schema.json",
+      "description": "nx-deno generator"
+    }
+  }
+}

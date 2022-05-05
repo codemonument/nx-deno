@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "nx-deno": "packages/nx-deno",
+    "nx-deno-e2e": "e2e/nx-deno-e2e"
+  }
+}
