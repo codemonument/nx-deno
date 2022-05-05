@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "execa": "^6.1.0",
-    "node-fetch": "^3.2.4",
+    "node-fetch": "^2.6.7",
     "tslib": "^2.3.0"
   }
 }
