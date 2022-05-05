@@ -1,0 +1,12 @@
+{
+  "sourceRoot": "<%= projectRoot %>",
+  "targets": {
+    "version": {
+      "executor": "@codemonument/nx-deno:passthrough",
+      "options": {
+        "cmd": "--version"
+      }
+    }
+  },
+  "tags": []
+}
