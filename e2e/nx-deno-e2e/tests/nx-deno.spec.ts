@@ -28,7 +28,7 @@ describe("nx-deno e2e", () => {
     await runNxCommandAsync(
       `generate @codemonument/nx-deno:nx-deno ${project}`,
     );
-    const result = await runNxCommandAsync(`build ${project}`);
+    const result = await runNxCommandAsync(`version ${project}`);
     expect(result.stdout).toContain("Executor ran");
   }, 120000);
 
