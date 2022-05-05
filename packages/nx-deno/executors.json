@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/schema",
   "executors": {
-    "build": {
-      "implementation": "./src/executors/build/executor",
-      "schema": "./src/executors/build/schema.json",
-      "description": "build executor"
+    "passthrough": {
+      "implementation": "./src/executors/passthrough/executor",
+      "schema": "./src/executors/passthrough/schema.json",
+      "description": "deno passthrough executor"
     }
   }
 }

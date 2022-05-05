@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Deno Passthrough executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "cmd": {
+      "type": "string",
+      "description": "The command passed to the deno executable (without 'deno' as prefix)"
+    }
+  },
+  "required": []
+}
