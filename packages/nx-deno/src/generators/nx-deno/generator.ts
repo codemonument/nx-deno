@@ -6,9 +6,10 @@ import {
   names,
   offsetFromRoot,
   Tree,
-} from '@nrwl/devkit';
-import * as path from 'path';
-import { NxDenoGeneratorSchema } from './schema';
+} from "@nrwl/devkit";
+import * as path from "path";
+import { NxDenoGeneratorSchema } from "./schema";
+import fetch from "node-fetch";
 
 interface NormalizedSchema extends NxDenoGeneratorSchema {
   projectName: string;
@@ -17,25 +18,33 @@ interface NormalizedSchema extends NxDenoGeneratorSchema {
   parsedTags: string[];
 }
 
-function normalizeOptions(
+async function normalizeOptions(
   tree: Tree,
-  options: NxDenoGeneratorSchema
-): NormalizedSchema {
+  options: NxDenoGeneratorSchema,
+): Promise<NormalizedSchema> {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+  const projectName = projectDirectory.replace(new RegExp("/", "g"), "-");
   const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
   const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
+    ? options.tags.split(",").map((s) => s.trim())
     : [];
+
+  const denoStdLibRedirect = await fetch(`https://deno.land/std`, {
+    redirect: "manual",
+  });
+  const latestVersion =
+    denoStdLibRedirect.headers.get("location").split("@")[1];
+  const denoStdLibVersion = options.denoStdLibVersion ?? latestVersion;
 
   return {
     ...options,
     projectName,
     projectRoot,
     projectDirectory,
+    denoStdLibVersion,
     parsedTags,
   };
 }
@@ -45,25 +54,25 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     ...options,
     ...names(options.name),
     offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
+    template: "",
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files'),
+    path.join(__dirname, "files"),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
 export default async function (tree: Tree, options: NxDenoGeneratorSchema) {
-  const normalizedOptions = normalizeOptions(tree, options);
+  const normalizedOptions = await normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
-    projectType: 'library',
+    projectType: "library",
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@codemonument/nx-deno:build',
+        executor: "@codemonument/nx-deno:build",
       },
     },
     tags: normalizedOptions.parsedTags,
