@@ -5,6 +5,13 @@
     "declaration": true,
     "types": []
   },
-  "include": ["**/*.ts"],
-  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+  "include": [
+    "**/*.ts",
+    "src/generators/nx-deno/files/src/dependencies/_log.std.ts__template__"
+  ],
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }
